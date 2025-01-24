@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+</head>
+<body>
+    Aqui se verán los usuarios
+    <script> 
+        fetch("/users")
+        .then (data => data.json())
+        .then(usuarios => {
+        const nombreUsuario = usuarios.nombreUsuario
+        const ul = document.createElement("ul")
+        for (let i = 0; i < usuarios.length; i++){ 
+            const li = document.createElement("li")
+            li.innerText = usuarios[i].nombreUsuario
+            ul.appendChild(li)
+        }
+        document.body.appendChild(ul)
+        console.log(usuarios)
+        })
+    </script>
+</body>
+</html>
