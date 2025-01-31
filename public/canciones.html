@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Canciones</title>
+</head>
+<body>
+    <script>
+        fetch("/canciones")
+        .then(data => data.json())
+        .then(canciones => {
+            const tabla = generarTablaHTML(canciones);
+            document.body.appendChild(tabla);
+        });
+
+        function generarTablaHTML(array) {
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            table.appendChild(thead);
+            const tr = document.createElement('tr');
+            thead.appendChild(tr);
+
+            const claves = Object.keys(array[0]);
+            for (let clave of claves) {
+                const th = document.createElement('th');
+                th.innerText = clave;
+                tr.appendChild(th);
+            }
+
+            const tbody = document.createElement('tbody');
+            table.appendChild(tbody);
+
+            const colorPorGenero = {
+                "Reguetón": "blue",
+                "Pop": "pink",
+                "Rock": "grey",
+                "Hip-hop": "purple",
+                "Jazz": "orange",
+                "Clásica": "beige",
+                "Salsa": "red",
+                "Electronica": "lightgreen",
+                "Blues": "navy",
+                "Country": "brown"
+            };
+
+            for (let item of array) {
+                const tr = document.createElement('tr');
+                let rowColor = colorPorGenero[item.genero] || 'white';
+                tr.style.backgroundColor = rowColor;
+                for (let clave of claves) {
+                    const td = document.createElement('td');
+                    td.innerText = item[clave];
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            }
+
+            return table;
+        }
+    </script>
+</body>
+</html>
+

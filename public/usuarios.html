@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios</title>
+    <title>Tabla de Usuarios</title>
 </head>
 <body>
-    Aqui se verán los usuarios
     <script> 
         fetch("/users")
-        .then (data => data.json())
+        .then(data => data.json())
         .then(usuarios => {
             generarTabla(usuarios)
         })
+
         function generarTabla(array){
             const table = document.createElement("table")
             const thead = document.createElement("thead")
@@ -22,27 +22,34 @@
 
             const claves = Object.keys(array[0])
 
-            for(let i=0; i < claves.length; i++){
-            console.log(claves[i])
-            const td = document.createElement("td")
-            td.innerText = claves[i]
-            tr.appendChild(td)
+            for (let i = 0; i < claves.length; i++) {
+                const td = document.createElement("td")
+                td.innerText = claves[i]
+                tr.appendChild(td)
             }
 
             const tbody = document.createElement("tbody")
             table.appendChild(tbody)
 
-            for(let i=0; i < array.length; i++){
-            console.log(array[i])
-            const tr = document.createElement("tr")
-            for(let j=0; j < claves.length; j++){
-                const td = document.createElement("td")
-                const clave = claves[j]
-                td.innerText = array[i][clave]
-                tr.appendChild(td)
+            for (let i = 0; i < array.length; i++) {
+                const tr = document.createElement("tr")
+                
+                if (array[i].estado === "activo") {
+                    tr.style.backgroundColor = "green"
+                } else if (array[i].estado === "inactivo") {
+                    tr.style.backgroundColor = "red"
+                }
+
+                for (let j = 0; j < claves.length; j++) {
+                    const td = document.createElement("td")
+                    const clave = claves[j]
+                    td.innerText = array[i][clave]
+                    tr.appendChild(td)
+                }
+
+                tbody.appendChild(tr)
             }
-            tbody.appendChild(tr)
-            }
+            
             document.body.appendChild(table)
         }
     </script>
