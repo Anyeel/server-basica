@@ -10,11 +10,29 @@
         fetch("/canciones")
         .then(data => data.json())
         .then(canciones => {
-            const tabla = generarTablaHTML(canciones);
+            const coloresEstado = {
+                "activo": "green",
+                "inactivo": "red"
+            };
+
+            const coloresGenero = {
+                "Reguetón": "blue",
+                "Pop": "pink",
+                "Rock": "grey",
+                "Hip-hop": "purple",
+                "Jazz": "orange",
+                "Clásica": "beige",
+                "Salsa": "red",
+                "Electronica": "lightgreen",
+                "Blues": "navy",
+                "Country": "brown"
+            };
+
+            const tabla = generarTablaHTML(canciones, coloresEstado, coloresGenero);
             document.body.appendChild(tabla);
         });
 
-        function generarTablaHTML(array) {
+        function generarTablaHTML(array, coloresEstado, coloresGenero) {
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             table.appendChild(thead);
@@ -31,22 +49,9 @@
             const tbody = document.createElement('tbody');
             table.appendChild(tbody);
 
-            const colorPorGenero = {
-                "Reguetón": "blue",
-                "Pop": "pink",
-                "Rock": "grey",
-                "Hip-hop": "purple",
-                "Jazz": "orange",
-                "Clásica": "beige",
-                "Salsa": "red",
-                "Electronica": "lightgreen",
-                "Blues": "navy",
-                "Country": "brown"
-            };
-
             for (let item of array) {
                 const tr = document.createElement('tr');
-                let rowColor = colorPorGenero[item.genero] || 'white';
+                let rowColor = coloresEstado[item.estado] || coloresGenero[item.genero] || 'white';
                 tr.style.backgroundColor = rowColor;
                 for (let clave of claves) {
                     const td = document.createElement('td');
@@ -61,4 +66,3 @@
     </script>
 </body>
 </html>
-
